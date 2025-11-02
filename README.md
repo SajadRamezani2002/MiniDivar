@@ -157,8 +157,8 @@ php artisan make:seeder UserSeeder
 ```
 و در UserSeeder.php اضافه شدند:
 
-php
-Copy code
+```php
+
 public function run(): void
 {
     $this->call([
@@ -166,6 +166,7 @@ public function run(): void
         CategorySeeder::class,
     ]);
 }
+```
 اجرای Seeder:
 
 ```bash
