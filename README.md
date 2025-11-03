@@ -175,7 +175,7 @@ php artisan db:seed
 ```
 </details>
 🧱 ساختار پروژه (MVC)
-
+```
 app/
  ├── Models/          → مدل‌ها (User, Ad, Category, ...)
  │
@@ -186,6 +186,6 @@ resources/
  ├── views/           → فایل‌های Blade
 routes/
  └── web.php          → مسیرهای وب
-
+```
 
 <p align="center">🧡 Developed with Laravel 12</b></p> ```
