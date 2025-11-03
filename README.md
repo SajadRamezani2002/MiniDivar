@@ -175,7 +175,8 @@ php artisan db:seed
 ```
 </details>
 🧱 ساختار پروژه (MVC)
-```
+
+```text
 app/
  ├── Models/          → مدل‌ها (User, Ad, Category, ...)
  │
