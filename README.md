@@ -189,4 +189,4 @@ routes/
  └── web.php          → مسیرهای وب
 ```
 
-<p align="center">🧡 Developed with Laravel 12</b></p> ```
+<p align="center">🧡 Developed with Laravel 12</b></p> 
