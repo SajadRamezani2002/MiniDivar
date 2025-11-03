@@ -97,8 +97,8 @@ cd minidivar
 composer install
 npm install
 ```
-# 3️⃣ ساخت فایل env
-cp .env.example .env
+# 3️⃣ ویرایش فایل env
+cp .env .env
 
 # 4️⃣ تنظیمات پایگاه‌داده در فایل .env
 DB_CONNECTION=mysql
