@@ -97,8 +97,8 @@ cd minidivar
 composer install
 npm install
 ```
-# 3️⃣ ساخت فایل env
-cp .env.example .env
+# 3️⃣ ویرایش فایل env
+cp .env .env
 
 # 4️⃣ تنظیمات پایگاه‌داده در فایل .env
 DB_CONNECTION=mysql
@@ -170,8 +170,15 @@ public function run(): void
 اجرای Seeder:
 
 ```bash
-Copy code
 php artisan db:seed
+```
+نمایش کاربران:
+```bash
+php artisan tinker
+```
+```bash
+App\Models\User::count();
+App\Models\User::all(['id', 'name', 'email', 'role' , 'phone'])->toArray();
 ```
 </details>
 🧱 ساختار پروژه (MVC)
