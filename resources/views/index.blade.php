@@ -48,7 +48,7 @@
 <body>
 
     @include('header')
-    @include('footer')
+    <!-- @include('footer') -->
 
 
 
