@@ -39,12 +39,18 @@
                 font-size: 0.85rem;
                 padding: 0.25rem 0.5rem;
             }
+        footer {
+             background: #333; color: white; text-align: center; padding: 20px; margin-top: 20px; 
+            }
         }
     </style>
 </head>
 <body>
 
     @include('header')
+    @include('footer')
+
+
 
 </body>
 </html>
