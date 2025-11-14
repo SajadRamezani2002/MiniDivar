@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('phone');
+            $table->text('message');
+            $table->unsignedBigInteger('Ads_id');
+            $table->foreign('Ads_id')->references('id')->on('ads')->onDelete('cascade');
             $table->timestamps();
         });
     }

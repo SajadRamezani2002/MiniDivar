@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->decimal('price', 8, 2)->unsigned()->nullable();
+            $table->string('city');
+            $table->string('state');
+            $table->text('description');
+            $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
