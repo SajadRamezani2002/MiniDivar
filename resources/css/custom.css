@@ -1,0 +1,36 @@
+body {
+  font-family: "Vazirmatn", sans-serif;
+  background-color: #f8f9fa;
+}
+
+.navbar-dark {
+  background-color: #212529 !important;
+}
+
+.navbar-brand img {
+  height: 28px;
+}
+
+.btn-danger {
+  background-color: #e63946;
+  border-color: #e63946;
+}
+
+.btn-danger:hover {
+  background-color: #d62839;
+}
+
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: #212529 !important;
+  color: #fff;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(230, 57, 70, 0.25);
+  border-color: #e63946;
+}
