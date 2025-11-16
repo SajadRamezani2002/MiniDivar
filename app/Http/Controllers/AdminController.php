@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Ad;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -78,4 +79,20 @@ class AdminController extends Controller
 
         return back()->with('success', 'وضعیت کاربر به‌روزرسانی شد.');
     }
+
+    public function toggleUserRole($id)
+{
+    $user = User::findOrFail($id);
+
+    // ادمین نمی‌تواند نقش خودش را تغییر دهد
+    if (Auth::user()->id == $user->id) {
+        return back()->with('error', 'نمی‌توانید نقش خودتان را تغییر دهید!');
+    }
+
+    // تغییر بین 'user' و 'admin'
+    $user->role = $user->role === 'admin' ? 'user' : 'admin';
+    $user->save();
+
+    return back()->with('success', "نقش کاربر {$user->name} به {$user->role} تغییر کرد.");
+}
 }
