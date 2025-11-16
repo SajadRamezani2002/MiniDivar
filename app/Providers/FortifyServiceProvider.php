@@ -8,11 +8,13 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -50,6 +52,16 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::createUsersUsing(\App\Actions\Fortify\CreateNewUser::class);
+
+        Fortify::redirects('login', function () {
+        $user = Auth::user();
+
+            if ($user && $user->role === 'admin') {
+                return '/admin/dashboard';
+            }
+
+        return '/dashboard';
+        });
 
     }
 }
