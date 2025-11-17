@@ -25,7 +25,8 @@
         {{-- آگهی ۲ --}}
         <div class="col-md-3 col-sm-6">
             <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('images/placeholder2.jpg') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="آپارتمان ۲ خوابه">
+                <img src="{{ asset('images/placeholder2.png
+                ') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="آپارتمان ۲ خوابه">
                 <div class="card-body">
                     <h5 class="card-title">آپارتمان ۲ خوابه در نیاوران</h5>
                     <p class="card-text text-muted small mb-1">دسته: املاک | شهر: اصفهان</p>
@@ -38,7 +39,7 @@
         {{-- آگهی ۳ --}}
         <div class="col-md-3 col-sm-6">
             <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('images/placeholder3.jpg') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="لپ تاپ گیمینگ">
+                <img src="{{ asset('images/placeholder3.png') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="لپ تاپ گیمینگ">
                 <div class="card-body">
                     <h5 class="card-title">لپ‌تاپ گیمینگ ASUS ROG</h5>
                     <p class="card-text text-muted small mb-1">دسته: کالای دیجیتال | شهر: مشهد</p>
@@ -51,9 +52,9 @@
         {{-- آگهی ۴ --}}
         <div class="col-md-3 col-sm-6">
             <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('images/placeholder4.jpg') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="دوچرخه شهری">
+                <img src="{{ asset('images/placeholder4.png') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="دوچرخه شهری">
                 <div class="card-body">
-                    <h5 class="card-title">دوچرخه شهری نو</h5>
+                    <h5 class="card-title">دوچرخه شهری </h5>
                     <p class="card-text text-muted small mb-1">دسته: وسایل نقلیه | شهر: کرج</p>
                     <p class="fw-bold text-danger mb-2">۲,۰۰۰,۰۰۰ تومان</p>
                     <button class="btn btn-secondary w-100" disabled>نمایشی</button>

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand fw-bold" href="{{ route('ads.index') }}">
-      <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2"> MiniDivar
+      <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" style="width: 50px"> MiniDivar
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMiniDivar">
