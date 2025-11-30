@@ -1,18 +1,9 @@
 @extends('layouts.admin')
-@section('title', 'داشبورد ادمین')
+@section('title', 'مدیریت آگهی‌ها')
 
 @section('content')
-<h3 class="fw-bold text-danger mb-4">آمار کلی</h3>
+<h3 class="fw-bold text-danger mb-4">آگهی‌ها</h3>
 
-<div class="row text-center mb-4">
-    <x-admin-stat color="primary" label="کل کاربران" :value="$usersCount" icon="bi-people" />
-    <x-admin-stat color="dark" label="کل آگهی‌ها" :value="$totalAds" icon="bi-card-text" />
-    <x-admin-stat color="success" label="فعال" :value="$activeAds" icon="bi-check-circle" />
-    <x-admin-stat color="warning" label="در انتظار تأیید" :value="$pendingAds" icon="bi-hourglass-split" />
-    <x-admin-stat color="danger" label="رد شده" :value="$rejectedAds" icon="bi-x-circle" />
-</div>
-
-<h4 class="fw-bold mb-3">آخرین آگهی‌ها</h4>
 <div class="table-responsive">
 <table class="table table-striped text-center align-middle">
     <thead>
@@ -26,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($recentAds as $ad)
+        @foreach($ads as $ad)
         <tr>
             <td>{{ $ad->id }}</td>
             <td>{{ $ad->title }}</td>
@@ -39,14 +30,14 @@
             </td>
             <td>
                 @if($ad->status == 'pending')
-                    <form method="POST" action="{{ route('admin.ads.approve', $ad->id) }}" class="d-inline">
-                        @csrf
-                        <button class="btn btn-success btn-sm">تأیید</button>
-                    </form>
-                    <form method="POST" action="{{ route('admin.ads.reject', $ad->id) }}" class="d-inline">
-                        @csrf
-                        <button class="btn btn-warning btn-sm">رد</button>
-                    </form>
+                <form method="POST" action="{{ route('admin.ads.approve', $ad->id) }}" class="d-inline">
+                    @csrf
+                    <button class="btn btn-success btn-sm">تأیید</button>
+                </form>
+                <form method="POST" action="{{ route('admin.ads.reject', $ad->id) }}" class="d-inline">
+                    @csrf
+                    <button class="btn btn-warning btn-sm">رد</button>
+                </form>
                 @endif
                 <form method="POST" action="{{ route('admin.ads.delete', $ad->id) }}" class="d-inline">
                     @csrf
@@ -58,5 +49,8 @@
         @endforeach
     </tbody>
 </table>
+<div class="d-flex justify-content-center">
+    {{ $ads->links() }}
+</div>
 </div>
 @endsection

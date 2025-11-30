@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->group(function () {
+    // داشبورد
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // مدیریت آگهی‌ها
@@ -47,8 +48,8 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->group(function () {
     // مدیریت کاربران
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
     Route::post('/users/{id}/toggle', [AdminController::class, 'toggleUser'])->name('admin.users.toggle');
+    Route::post('/users/{id}/toggle-role', [AdminController::class, 'toggleUserRole'])->name('admin.users.toggleRole');
 });
-Route::post('/users/{id}/toggle-role', [AdminController::class, 'toggleUserRole'])->name('admin.users.toggleRole');
 
 
 /*

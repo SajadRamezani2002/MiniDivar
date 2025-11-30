@@ -20,11 +20,19 @@ class AdminController extends Controller
         $usersCount = User::count();
         $categories = Category::count();
 
+        $users = User::paginate(10);
+
+
         $recentAds = Ad::latest()->take(5)->get();
 
+        // return view('dashboard.admin', compact(
+        //     'totalAds', 'pendingAds', 'activeAds', 'rejectedAds', 'usersCount', 'categories', 'recentAds'
+        // ));
         return view('dashboard.admin', compact(
-            'totalAds', 'pendingAds', 'activeAds', 'rejectedAds', 'usersCount', 'categories', 'recentAds'
+            'totalAds', 'pendingAds', 'activeAds', 'rejectedAds',
+            'usersCount', 'categories', 'recentAds', 'users'
         ));
+
     }
 
     // لیست آگهی‌ها
