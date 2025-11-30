@@ -13,7 +13,7 @@ class AdController extends Controller
     // نمایش تمام آگهی‌ها (صفحه اصلی)
     public function index()
     {
-        $ads = Ad::with('category', 'user')->latest()->paginate(10);
+        $ads = Ad::with('category', 'user')->where('status', 'active')->latest()->paginate(10);
         return view('ads.index', compact('ads'));
 
     }
@@ -26,15 +26,33 @@ class AdController extends Controller
     }
 
     // ذخیره آگهی جدید
+    // ذخیره آگهی جدید با تصاویر
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|max:70',
-            'description' => 'required|min:20',
-            'price' => 'required|numeric',
-            'city' => 'required',
-            'category_id' => 'required|exists:categories,id',
-        ]);
+        'title' => 'required|max:70',
+        'description' => 'required|min:20',
+        'price' => 'required|numeric',
+        'city' => 'required|min:3',
+        'category_id' => 'required|exists:categories,id',
+        'images.*' => 'nullable|image|mimes:jpeg,jpg,png|max:3072',
+        'images' => 'nullable|array|max:4',
+    ], [
+        'title.required' => 'عنوان آگهی الزامی است.',
+        'title.max' => 'عنوان نباید بیشتر از 70 کاراکتر باشد.',
+        'description.required' => 'توضیحات الزامی است.',
+        'description.min' => 'توضیحات باید حداقل 50 کاراکتر باشد.',
+        'price.required' => 'قیمت آگهی الزامی است.',
+        'price.numeric' => 'قیمت باید یک عدد معتبر باشد.',
+        'city.required' => 'شهر الزامی است.',
+        'category_id.required' => 'دسته‌بندی الزامی است.',
+        'category_id.exists' => 'دسته‌بندی انتخاب شده معتبر نیست.',
+        'images.*.image' => 'فایل باید یک تصویر باشد.',
+        'images.*.mimes' => 'تصاویر باید با فرمت jpg یا png باشند.',
+        'images.*.max' => 'حجم هر تصویر نباید بیشتر از 3 مگابایت باشد.',
+        'images.max' => 'حداکثر 4 تصویر می‌توانید آپلود کنید.',
+    ]);
+
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -46,13 +64,21 @@ class AdController extends Controller
             'price' => $request->price,
             'city' => $request->city,
             'category_id' => $request->category_id,
-            // اگر کاربر لاگین هست از id استفاده کن، در غیر این صورت مقدار موقت (برای توسعه) 1 قرار میده
             'user_id' => Auth::check() ? Auth::id() : 1,
             'status' => 'pending',
         ]);
 
-        return redirect()->route('ads.index')->with('success', 'آگهی با موفقیت ثبت شد و در انتظار تأیید است.');
+        // آپلود تصاویر
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('ads', 'public'); // مسیر: storage/app/public/ads
+                $ad->images()->create(['path' => $path]);
+            }
+        }
+
+        return redirect()->route('dashboard')->with('success', 'آگهی شما با موفقیت ثبت شد و در انتظار تأیید است.');
     }
+
 
     // نمایش جزئیات آگهی
     public function show($id)

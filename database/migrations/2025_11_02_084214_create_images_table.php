@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('Ads_id');
-            $table->foreign('Ads_id')->references('id')->on('ads')->onDelete('cascade');
-
+            $table->unsignedBigInteger('ad_id'); // نام درست ستون
+            $table->foreign('ad_id')->references('id')->on('ads')->onDelete('cascade');
+            $table->string('path'); // مسیر فایل تصویر
             $table->timestamps();
         });
+
     }
 
     /**
