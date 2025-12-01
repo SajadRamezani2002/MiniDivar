@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ad;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // <-- Facade برای auth
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AdController extends Controller
@@ -15,7 +15,6 @@ class AdController extends Controller
     {
         $ads = Ad::with('category', 'user')->where('status', 'active')->latest()->paginate(10);
         return view('ads.index', compact('ads'));
-
     }
 
     // نمایش فرم ایجاد آگهی جدید
@@ -26,33 +25,31 @@ class AdController extends Controller
     }
 
     // ذخیره آگهی جدید
-    // ذخیره آگهی جدید با تصاویر
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-        'title' => 'required|max:70',
-        'description' => 'required|min:20',
-        'price' => 'required|numeric',
-        'city' => 'required|min:3',
-        'category_id' => 'required|exists:categories,id',
-        'images.*' => 'nullable|image|mimes:jpeg,jpg,png|max:3072',
-        'images' => 'nullable|array|max:4',
-    ], [
-        'title.required' => 'عنوان آگهی الزامی است.',
-        'title.max' => 'عنوان نباید بیشتر از 70 کاراکتر باشد.',
-        'description.required' => 'توضیحات الزامی است.',
-        'description.min' => 'توضیحات باید حداقل 50 کاراکتر باشد.',
-        'price.required' => 'قیمت آگهی الزامی است.',
-        'price.numeric' => 'قیمت باید یک عدد معتبر باشد.',
-        'city.required' => 'شهر الزامی است.',
-        'category_id.required' => 'دسته‌بندی الزامی است.',
-        'category_id.exists' => 'دسته‌بندی انتخاب شده معتبر نیست.',
-        'images.*.image' => 'فایل باید یک تصویر باشد.',
-        'images.*.mimes' => 'تصاویر باید با فرمت jpg یا png باشند.',
-        'images.*.max' => 'حجم هر تصویر نباید بیشتر از 3 مگابایت باشد.',
-        'images.max' => 'حداکثر 4 تصویر می‌توانید آپلود کنید.',
-    ]);
-
+            'title' => 'required|max:70',
+            'description' => 'required|min:20',
+            'price' => 'required|numeric',
+            'city' => 'required|min:3',
+            'category_id' => 'required|exists:categories,id',
+            'images.*' => 'nullable|image|mimes:jpeg,jpg,png|max:3072',
+            'images' => 'nullable|array|max:4',
+        ], [
+            'title.required' => 'عنوان آگهی الزامی است.',
+            'title.max' => 'عنوان نباید بیشتر از 70 کاراکتر باشد.',
+            'description.required' => 'توضیحات الزامی است.',
+            'description.min' => 'توضیحات باید حداقل 20 کاراکتر باشد.',
+            'price.required' => 'قیمت آگهی الزامی است.',
+            'price.numeric' => 'قیمت باید یک عدد معتبر باشد.',
+            'city.required' => 'شهر الزامی است.',
+            'category_id.required' => 'دسته‌بندی الزامی است.',
+            'category_id.exists' => 'دسته‌بندی انتخاب شده معتبر نیست.',
+            'images.*.image' => 'فایل باید یک تصویر باشد.',
+            'images.*.mimes' => 'تصاویر باید با فرمت jpg یا png باشند.',
+            'images.*.max' => 'حجم هر تصویر نباید بیشتر از 3 مگابایت باشد.',
+            'images.max' => 'حداکثر 4 تصویر می‌توانید آپلود کنید.',
+        ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -71,14 +68,55 @@ class AdController extends Controller
         // آپلود تصاویر
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
-                $path = $file->store('ads', 'public'); // مسیر: storage/app/public/ads
-                $ad->images()->create(['path' => $path]);
+                $path = $file->store('ads', 'public');
+                $ad->images()->create(['file_path' => $path]);
             }
         }
 
         return redirect()->route('dashboard')->with('success', 'آگهی شما با موفقیت ثبت شد و در انتظار تأیید است.');
     }
 
+    /**
+     * نمایش فرم ویرایش آگهی
+     */
+    public function edit($id)
+    {
+        $ad = Ad::findOrFail($id);
+        $categories = Category::all();
+
+        // بررسی می‌کند که آیا کاربر فعلی صاحب آگهی است یا خیر
+        if ($ad->user_id !== auth()->id()) {
+            abort(403); // اگر صاحب آگهی نبود، خطای دسترسی ممنوع نمایش بده
+        }
+
+        return view('ads.edit', compact('ad', 'categories'));
+    }
+
+    /**
+     * به‌روزرسانی اطلاعات آگهی
+     */
+    public function update(Request $request, $id)
+    {
+        $ad = Ad::findOrFail($id);
+
+        // بررسی می‌کند که آیا کاربر فعلی صاحب آگهی است یا خیر
+        if ($ad->user_id !== auth()->id()) {
+            abort(403); // اگر صاحب آگهی نبود، خطای دسترسی ممنوع نمایش بده
+        }
+
+        // اعتبارسنجی اطلاعات جدید
+        $validatedData = $request->validate([
+            'title' => 'required|max:70',
+            'description' => 'required|min:20',
+            'price' => 'required|numeric',
+            'city' => 'required|min:3',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $ad->update($validatedData);
+
+        return redirect()->route('dashboard')->with('success', 'آگهی شما با موفقیت ویرایش شد.');
+    }
 
     // نمایش جزئیات آگهی
     public function show($id)

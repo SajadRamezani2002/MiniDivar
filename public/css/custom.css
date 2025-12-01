@@ -1,0 +1,127 @@
+=======================================
+/* استایل‌های کلی سایت */
+/* ====================================== */
+
+:root {
+    --primary-color: #e74c3c;
+    --secondary-color: #34495e;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --border-color: #dee2e6;
+    --text-muted: #6c757d;
+}
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background-color: var(--light-bg);
+}
+
+/* استایل هدر و فوتر */
+/* این بخش‌ها را می‌توانید طبق سلیق خودتان تغییر دهید */
+
+/* ======================================= */
+/* استایل‌های پنل ادمین */
+/* ====================================== */
+
+.app-wrapper {
+    display: flex;
+    min-height: calc(100vh - 56px); /* 56px ارتفاع تقریبی هدر */
+}
+
+/* استایل سایدبار */
+.admin-sidebar {
+    width: 270px;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    position: fixed; /* ثابت در صفحه */
+    top: 56px; /* زیر هدر */
+    right: 0;
+    height: calc(100vh - 56px);
+    z-index: 1030;
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(100%); /* به طور پیش‌فرض در موبایل مخفی است */
+}
+
+.sidebar-header {
+    padding: 1.5rem 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.admin-sidebar .nav-link:hover,
+.admin-sidebar .nav-link.active {
+    color: var(--white);
+    background-color: var(--primary-color);
+}
+
+.admin-sidebar .nav-link i {
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+}
+
+/* استایل محتوای اصلی */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    transition: margin-right 0.3s ease-in-out;
+}
+
+.main-content.has-sidebar {
+    margin-right: 270px; /* ایجاد فضا برای سایدبار در دسکتاپ */
+}
+
+/* دکمه منو برای موبایل */
+.menu-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1040;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none; /* به طور پیش‌فرض مخفی است */
+}
+
+/* ======================================= */
+/* واکنش‌گرایی (Responsive) */
+/* ======================================= */
+
+@media (min-width: 992px) {
+    /* در دسکتاپ */
+    .menu-toggle {
+        display: none; /* دکمه منو مخفی */
+    }
+    .admin-sidebar {
+        transform: translateX(0); /* سایدبار همیشه نمایش داده می‌شود */
+    }
+}
+
+@media (max-width: 991.98px) {
+    /* در موبایل */
+    .menu-toggle {
+        display: block; /* دکمه منو نمایش داده می‌شود */
+    }
+    .main-content.has-sidebar {
+        margin-right: 0; /* فضا برای سایدبار حذف می‌شود */
+    }
+    .admin-sidebar.show {
+        transform: translateX(0); /* با کلیک روی دکمه، سایدبار نمایش داده می‌شود */
+    }
+}

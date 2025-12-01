@@ -12,8 +12,15 @@ class UserDashboardController extends Controller
     /**
      * نمایش داشبورد کاربر
      */
-    public function index()
+     public function index()
     {
+        // --- این بخش را اضافه کنید ---
+        // اگر کاربر ادمین بود، او را به داشبورد ادمین هدایت کن
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        // --- پایان بخش اضافه شده ---
+
         $user = Auth::user();
 
         // آگهی‌های کاربر (بدون Pagination)

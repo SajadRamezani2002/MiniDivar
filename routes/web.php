@@ -23,11 +23,15 @@ Route::get('/home', fn() => view('index'));
 
 /*
 |--------------------------------------------------------------------------
-| مسیرهای کاربران عادی
+| مسیرهای کاربران عادی (نیاز به ورود دارد)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+
+    // --- مسیرهای ویرایش آگهی را اینجا اضافه کنید ---
+    Route::get('/ads/{ad}/edit', [AdController::class, 'edit'])->name('ads.edit');
+    Route::put('/ads/{ad}', [AdController::class, 'update'])->name('ads.update');
 });
 
 /*

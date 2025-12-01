@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('ad_id'); // نام درست ستون
             $table->foreign('ad_id')->references('id')->on('ads')->onDelete('cascade');
-            $table->string('path'); // مسیر فایل تصویر
+            $table->string('file_path'); // مسیر فایل تصویر
             $table->timestamps();
         });
 

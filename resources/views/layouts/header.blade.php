@@ -1,52 +1,137 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="{{ route('ads.index') }}">
-      <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" style="width: 50px"> MiniDivar
-    </a>
+{{-- این تگ استایل، تمام استایل‌های لازم را مستقیماً در این فایل تعریف می‌کند --}}
+<style>
+    /* استایل‌های مستقل برای هدر */
+    .main-navbar {
+        background-color: #1a1a1a !important; /* رنگ تیره برای هدر */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important; /* سایه برای جدا شدن از صفحه */
+        border-bottom: 1px solid #333 !important; /* یک خط کمرنگ برای زیبایی */
+    }
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMiniDivar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    .main-navbar .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #ffffff !important;
+    }
 
-    <div class="collapse navbar-collapse" id="navbarMiniDivar">
-      <ul class="navbar-nav ms-auto align-items-center">
+    .main-navbar .nav-link {
+        color: rgba(255, 255, 255, 0.8) !important;
+        margin-left: 1rem;
+        transition: color 0.3s ease;
+        position: relative;
+    }
 
-        {{-- <li class="nav-item"><a href="{{ route('ads.index') }}" class="nav-link">خانه</a></li> --}}
+    .main-navbar .nav-link:hover {
+        color: #ffffff !important;
+    }
 
+    .main-navbar .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        right: 0;
+        background-color: #dc3545;
+        transition: width 0.3s ease;
+    }
 
-        {{-- اگر کاربر مهمان است --}}
-        @guest
-          <li class="nav-item ms-3">
-            <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">ورود</a>
-          </li>
-          <li class="nav-item ms-2">
-            <a href="{{ route('register') }}" class="btn btn-danger btn-sm">ثبت‌نام</a>
-          </li>
-        @endguest
+    .main-navbar .nav-link:hover::after {
+        width: 80%;
+    }
 
-        {{-- اگر کاربر لاگین کرده --}}
-        @auth
-          <li class="nav-item dropdown ms-3">
-            <li class="nav-item"><a href="{{ route('ads.create') }}" class="nav-link">ثبت آگهی</a></li>
-            <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" data-bs-toggle="dropdown">
-              <img src="{{ Auth::user()->profile_photo_url ?? asset('images/user.png') }}" class="rounded-circle me-2" width="32" height="32">
-              {{ Auth::user()->name }}
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end text-end">
-              <li><a class="dropdown-item" href="{{ route('dashboard') }}">داشبورد</a></li>
-              <li><a class="dropdown-item" href="{{ route('profile.show') }}">پروفایل</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <form method="POST" action="{{ route('logout') }}">
-                  @csrf
-                  <button class="dropdown-item text-danger">خروج</button>
-                </form>
-              </li>
+    .main-navbar .user-dropdown img {
+        border: 2px solid #dc3545;
+    }
+
+    .main-navbar .dropdown-menu {
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        border-radius: 0.5rem;
+    }
+
+    .btn-post-ad {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-post-ad:hover {
+        background-color: #218838 !important;
+        border-color: #1e7e34 !important;
+        transform: translateY(-2px);
+    }
+
+    /* استایل برای دکمه‌های ورود و ثبت‌نام */
+    .main-navbar .btn-outline-light {
+        border-color: rgba(255,255,255,0.5) !important;
+        color: rgba(255,255,255,0.9) !important;
+    }
+    .main-navbar .btn-outline-light:hover {
+        border-color: #ffffff !important;
+        background-color: #ffffff !important;
+        color: #1a1a1a !important;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg main-navbar navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ route('ads.index') }}">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" style="width: 50px; height: 50px; object-fit: contain;">
+            MiniDivar
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMiniDivar" aria-controls="navbarMiniDivar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {{-- دکمه منو برای موبایل (فقط در صفحات ادمین) --}}
+        @if(request()->is('admin/*'))
+            <button class="menu-toggle" id="menuToggle">&#9776;</button>
+        @endif
+
+        <div class="collapse navbar-collapse" id="navbarMiniDivar">
+            <ul class="navbar-nav ms-auto align-items-center">
+                {{-- اگر کاربر مهمان است --}}
+                @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">ورود</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-danger btn-sm" href="{{ route('register') }}">ثبت‌نام</a>
+                    </li>
+                @endguest
+
+                {{-- اگر کاربر لاگین کرده --}}
+                @auth
+                    <li class="nav-item">
+                        <a class="btn btn-post-ad btn-sm text-white" href="{{ route('ads.create') }}">
+                            <i class="bi bi-plus-circle me-1"></i> ثبت آگهی
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown user-dropdown ms-3">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ Auth::user()->profile_photo_url ?? asset('images/user.png') }}" class="rounded-circle me-2" width="32" height="32" style="object-fit: cover;">
+                            {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end text-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="bi bi-speedometer2 ms-2"></i> داشبورد</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.show') }}"><i class="bi bi-person ms-2"></i> پروفایل</a></li>
+                            <li><a class="dropdown-item" href="{{ route('ads.index', ['user' => Auth::id()]) }}"><i class="bi bi-card-text ms-2"></i> آگهی‌های من</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="bi bi-box-arrow-right ms-2"></i> خروج
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @endauth
             </ul>
-          </li>
-        @endauth
-
-      </ul>
+        </div>
     </div>
-  </div>
 </nav>
