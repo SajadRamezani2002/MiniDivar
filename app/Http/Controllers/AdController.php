@@ -13,7 +13,12 @@ class AdController extends Controller
     // نمایش تمام آگهی‌ها (صفحه اصلی)
     public function index()
     {
-        $ads = Ad::with('category', 'user')->where('status', 'active')->latest()->paginate(10);
+        // فقط آگهی‌های تایید شده (active)
+        $ads = Ad::with('category', 'user')
+                ->where('status', 'active')
+                ->latest()
+                ->paginate(10);
+
         return view('ads.index', compact('ads'));
     }
 
@@ -125,7 +130,7 @@ class AdController extends Controller
         return view('ads.show', compact('ad'));
     }
 
-    // حذف آگهی (فقط برای تست فعلاً)
+    // حذف آگهی
     public function destroy($id)
     {
         $ad = Ad::findOrFail($id);

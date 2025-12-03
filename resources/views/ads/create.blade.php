@@ -180,7 +180,7 @@
                             </div>
                         </div>
 
-                        <!-- بخش ۳: تصاویر (نسخه ساده) -->
+                        <!-- بخش ۳: تصاویر  -->
                         <div class="form-section">
                             <h6 class="form-section-title"><i class="bi bi-images"></i> تصاویر آگهی</h6>
 

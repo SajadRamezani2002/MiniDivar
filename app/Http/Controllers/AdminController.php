@@ -23,8 +23,7 @@ class AdminController extends Controller
         $users = User::paginate(10);
 
 
-        $recentAds = Ad::latest()->take(5)->get();
-
+        $recentAds = Ad::with('user', 'category')->latest()->paginate(10);
         // return view('dashboard.admin', compact(
         //     'totalAds', 'pendingAds', 'activeAds', 'rejectedAds', 'usersCount', 'categories', 'recentAds'
         // ));
@@ -38,7 +37,7 @@ class AdminController extends Controller
     // لیست آگهی‌ها
     public function ads()
     {
-        $ads = Ad::with('user', 'category')->latest()->paginate(10);
+        $ads = Ad::with('user', 'category')->latest()->get();
         return view('admin.ads', compact('ads'));
     }
 
@@ -74,7 +73,7 @@ class AdminController extends Controller
     // مدیریت کاربران
     public function users()
     {
-        $users = User::paginate(10);
+        $users = User::latest()->get();
         return view('admin.users', compact('users'));
     }
 

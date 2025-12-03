@@ -7,61 +7,35 @@
 
     <h2 class="fw-bold text-center mb-5">آخرین آگهی‌ها</h2>
 
-    <div class="row g-4">
+    <div class="row">
+        @forelse($ads as $ad)
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    {{-- تصویر --}}
+                    @if($ad->images->isNotEmpty())
+                        <img src="{{ asset('storage/' . $ad->images->first()->file_path) }}" class="card-img-top" alt="تصویر آگهی" style="height: 200px; object-fit: cover;">
+                    @else
+                        <img src="{{ asset('images/no-image.png') }}" class="card-img-top" alt="بدون تصویر" style="height: 200px; object-fit: cover;">
+                    @endif
 
-        {{-- آگهی ۱ --}}
-        <div class="col-md-3 col-sm-6">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('images/placeholder1.jpg') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="گوشی سامسونگ">
-                <div class="card-body">
-                    <h5 class="card-title">گوشی سامسونگ مدل Galaxy X</h5>
-                    <p class="card-text text-muted small mb-1">دسته: موبایل | شهر: تهران</p>
-                    <p class="fw-bold text-danger mb-2">۱۵,۰۰۰,۰۰۰ تومان</p>
-                    <button class="btn btn-secondary w-100" disabled>نمایشی</button>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ $ad->title }}</h5>
+                        <p class="text-muted small mb-2">{{ number_format($ad->price) }} تومان | {{ $ad->city }}</p>
+
+                        <p class="mt-2 card-text text-truncate">{{ $ad->description }}</p>
+                        <a href="{{ route('ads.show', $ad->id) }}" class="btn btn-danger mt-auto">مشاهده جزئیات</a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        {{-- آگهی ۲ --}}
-        <div class="col-md-3 col-sm-6">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('images/placeholder2.png
-                ') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="آپارتمان ۲ خوابه">
-                <div class="card-body">
-                    <h5 class="card-title">آپارتمان ۲ خوابه در نیاوران</h5>
-                    <p class="card-text text-muted small mb-1">دسته: املاک | شهر: اصفهان</p>
-                    <p class="fw-bold text-danger mb-2">۵,۵۰۰,۰۰۰,۰۰۰ تومان</p>
-                    <button class="btn btn-secondary w-100" disabled>نمایشی</button>
-                </div>
-            </div>
-        </div>
-
-        {{-- آگهی ۳ --}}
-        <div class="col-md-3 col-sm-6">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('images/placeholder3.png') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="لپ تاپ گیمینگ">
-                <div class="card-body">
-                    <h5 class="card-title">لپ‌تاپ گیمینگ ASUS ROG</h5>
-                    <p class="card-text text-muted small mb-1">دسته: کالای دیجیتال | شهر: مشهد</p>
-                    <p class="fw-bold text-danger mb-2">۳۲,۰۰۰,۰۰۰ تومان</p>
-                    <button class="btn btn-secondary w-100" disabled>نمایشی</button>
-                </div>
-            </div>
-        </div>
-
-        {{-- آگهی ۴ --}}
-        <div class="col-md-3 col-sm-6">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('images/placeholder4.png') }}" class="card-img-top" style="height:180px; object-fit:cover;" alt="دوچرخه شهری">
-                <div class="card-body">
-                    <h5 class="card-title">دوچرخه شهری </h5>
-                    <p class="card-text text-muted small mb-1">دسته: وسایل نقلیه | شهر: کرج</p>
-                    <p class="fw-bold text-danger mb-2">۲,۰۰۰,۰۰۰ تومان</p>
-                    <button class="btn btn-secondary w-100" disabled>نمایشی</button>
-                </div>
-            </div>
-        </div>
-
+        @empty
+            <p class="text-center text-muted">فعلاً هیچ آگهی ثبت نشده است.</p>
+        @endforelse
     </div>
+
+    Pagination
+    <div class="d-flex justify-content-center mt-4">
+        {{ $ads->links() }}
+    </div>
+
 </div>
 @endsection
