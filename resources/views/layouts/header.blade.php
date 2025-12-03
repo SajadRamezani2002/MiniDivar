@@ -118,9 +118,7 @@
                         <ul class="dropdown-menu dropdown-menu-end text-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="bi bi-speedometer2 ms-2"></i> داشبورد</a></li>
                             <li><a class="dropdown-item" href="{{ route('profile.show') }}"><i class="bi bi-person ms-2"></i> پروفایل</a></li>
-                            <li><a class="dropdown-item" href="{{ route('ads.index', ['user' => Auth::id()]) }}"><i class="bi bi-card-text ms-2"></i> آگهی‌های من</a></li>
-                            {{-- منوهای مدیریت فقط برای ادمین --}}
-                            @if(Auth::user()->role === 'admin')
+                            <li><a class="dropdown-item" href="{{ route('my.ads') }}"><i class="bi bi-card-text ms-2"></i> آگهی‌های من</a></li>                            @if(Auth::user()->role === 'admin')
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{{ route('admin.ads') }}"><i class="bi bi-list-ul ms-2"></i> مدیریت آگهی‌ها</a></li>
                                 <li><a class="dropdown-item" href="{{ route('admin.users') }}"><i class="bi bi-people-fill ms-2"></i> مدیریت کاربران</a></li>

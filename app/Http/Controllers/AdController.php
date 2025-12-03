@@ -124,10 +124,34 @@ class AdController extends Controller
     }
 
     // نمایش جزئیات آگهی
-    public function show($id)
+
+    public function show(Ad $ad)
     {
-        $ad = Ad::with('category', 'user', 'images')->findOrFail($id);
-        return view('ads.show', compact('ad'));
+        // این شرط باعث 404 شدن آگهی‌های غیرفعال می‌شود
+        if ($ad->status !== 'active') {
+            abort(404);
+        }
+
+        // این کد را هم برای تست اضافه کنید تا ببینید آگهی‌های مشابه دریافت می‌شوند یا نه
+        $similarAds = Ad::where('category_id', $ad->category_id)
+                        ->where('id', '!=', $ad->id)
+                        ->where('status', 'active')
+                        ->inRandomOrder()
+                        ->take(4)
+                        ->get();
+
+        if ($similarAds->count() < 4) {
+            $remainingCount = 4 - $similarAds->count();
+            $otherAds = Ad::where('id', '!=', $ad->id)
+                        ->where('status', 'active')
+                        ->whereNotIn('id', $similarAds->pluck('id'))
+                        ->inRandomOrder()
+                        ->take($remainingCount)
+                        ->get();
+            $similarAds = $similarAds->merge($otherAds);
+        }
+
+        return view('ads.show', compact('ad', 'similarAds'));
     }
 
     // حذف آگهی
@@ -138,4 +162,20 @@ class AdController extends Controller
 
         return redirect()->route('ads.index')->with('success', 'آگهی حذف شد.');
     }
+
+
+     // نمایش آگهی‌های کاربر لاگین کرده
+
+    public function myAds()
+    {
+        $ads = Ad::with('category', 'user')
+                ->where('user_id', Auth::id()) // فقط آگهی‌های کاربر فعلی
+                ->latest()
+                ->paginate(10);
+
+        // می‌توانیم از همان ویو ads.index استفاده کنیم
+        // و با یک پرچم (flag) به آن بگوییم که این صفحه "آگهی‌های من" است
+        return view('ads.index', compact('ads'))->with('isMyAdsPage', true);
+    }
+
 }

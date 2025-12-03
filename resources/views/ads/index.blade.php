@@ -5,8 +5,13 @@
 @section('content')
 <div class="container py-5">
 
-    <h2 class="fw-bold text-center mb-5">آخرین آگهی‌ها</h2>
-
+    <h1 class="mb-4">
+        @if(isset($isMyAdsPage))
+            آگهی‌های من
+        @else
+            همه آگهی‌ها
+        @endif
+    </h1>
     <div class="row">
         @forelse($ads as $ad)
             <div class="col-md-4 mb-4">
@@ -32,7 +37,7 @@
         @endforelse
     </div>
 
-    Pagination
+    {{-- Pagination --}}
     <div class="d-flex justify-content-center mt-4">
         {{ $ads->links() }}
     </div>

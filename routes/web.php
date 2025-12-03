@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Auth;
 
+
 /*
 |--------------------------------------------------------------------------
 | مسیرهای عمومی
@@ -15,12 +16,12 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', [AdController::class, 'index'])->name('ads.index');
 Route::get('/ads/create', [AdController::class, 'create'])->name('ads.create');
 Route::post('/ads', [AdController::class, 'store'])->name('ads.store');
-Route::get('/ads/{id}', [AdController::class, 'show'])->name('ads.show');
+Route::get('/ads/{ad}', [AdController::class, 'show'])->name('ads.show');
 Route::delete('/ads/{id}', [AdController::class, 'destroy'])->name('ads.destroy');
 
 Route::get('/welcome', fn() => view('welcome'));
 Route::get('/home', fn() => view('index'));
-
+Route::get('/my-ads', [AdController::class, 'myAds'])->name('my.ads')->middleware('auth');
 /*
 |--------------------------------------------------------------------------
 | مسیرهای کاربران عادی (نیاز به ورود دارد)
@@ -67,3 +68,4 @@ Route::get('/redirect-after-login', function () {
     }
     return redirect()->route('dashboard');
 });
+
