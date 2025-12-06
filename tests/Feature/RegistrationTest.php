@@ -7,6 +7,7 @@ use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
 use Tests\TestCase;
 
+
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
@@ -44,6 +45,7 @@ class RegistrationTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'phone' => '9123456789',
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
         ]);
 

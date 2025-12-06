@@ -68,4 +68,3 @@ Route::get('/redirect-after-login', function () {
     }
     return redirect()->route('dashboard');
 });
-
