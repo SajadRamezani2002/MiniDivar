@@ -5,35 +5,38 @@
 @push('styles')
 <style>
     /* استایل‌های سفارشی برای صفحه اصلی */
-    .hero-section {
-        background-color: #f8f9fa;
-        border-bottom: 1px solid #e9ecef;
-        padding: 2.5rem 0;
+    .main-header {
+        color: rgb(0, 0, 0);
+        padding: 3rem 0;
         margin-bottom: 2rem;
-    }
-    .hero-title {
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: #2c3e50;
-    }
-    .hero-subtitle {
-        font-size: 1.1rem;
-        color: #6c757d;
+        border-radius: 0 0 20px 20px;
     }
     .search-form .form-control {
-        border-radius: 50px;
-        padding: 12px 25px;
+        border-radius: 0.5rem;
         border: 1px solid #ced4da;
+        padding: 0.75rem 1rem;
         transition: all 0.2s ease-in-out;
     }
     .search-form .form-control:focus {
         border-color: #e74c3c;
         box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
     }
+    .search-form .form-select {
+        border-radius: 0.5rem;
+        border: 1px solid #ced4da;
+        padding: 0.75rem 1rem;
+        transition: all 0.2s ease-in-out;
+    }
+    .search-form .form-label {
+        font-weight: 600;
+        color: #f8f9fa; /* رنگ روشن برای خوانایی روی پس‌زمینه تیره */
+        margin-bottom: 0.5rem;
+    }
     .search-form .btn {
         border-radius: 50px;
-        padding: 12px 30px;
+        padding: 0.75rem 1.5rem;
         font-weight: 600;
+        transition: all 0.3s ease;
     }
     .ad-card {
         transition: all 0.3s ease;
@@ -93,7 +96,7 @@
         color: white;
     }
     .empty-state {
-        padding:4rem 2rem;
+        padding: 4rem 2rem;
         text-align: center;
     }
     .empty-state img {
@@ -105,40 +108,63 @@
 @endpush
 
 @section('content')
-<div class="container">
-
-    <!-- بخش جستجو و فیلتر (Hero Section) -->
-    <section class="hero-section text-center">
+<!-- بخش هدر با جستجو و فیلتر -->
+<header class="main-header">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h1 class="hero-title">
+            <div class="col-lg-10">
+                <h1 class="display-5 fw-bold">
                     @if(isset($isMyAdsPage))
                         آگهی‌های من
                     @else
                         بهترین آگهی‌ها را پیدا کنید
                     @endif
                 </h1>
-                <p class="hero-subtitle">در MiniDivar، همیشه یک فرصت جدید در انتظار شماست.</p>
+                <p class="lead">در MiniDivar، کالایس خود را پیدا کنید.</p>
 
                 <form action="{{ route('ads.index') }}" method="GET" class="search-form mt-4">
-                    <div class="input-group input-group-lg">
-                        <input type="text" name="search" class="form-control" placeholder="جستجو در عنوان آگهی‌ها..." value="{{ request('search') }}">
-                        <select name="category_id" class="form-select">
-                            <option value="">همه دسته‌بندی‌ها</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <button class="btn btn-danger" type="submit">جستجو</button>
+                    <div class="row g-3 align-items-center">
+                        <!-- جستجو -->
+                        <div class="col-md-4">
+                            <label for="search" class="form-label">جستجو در عنوان</label>
+                            <input type="text" name="search" class="form-control" placeholder="عنوان آگهی..." value="{{ request('search') }}">
+                        </div>
+                        <!-- دسته‌بندی -->
+                        <div class="col-md-2">
+                            <label for="category_id" class="form-label">دسته‌بندی</label>
+                            <select name="category_id" class="form-select">
+                                <option value="">همه دسته‌بندی‌ها</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <!-- شهر -->
+                        <div class="col-md-2">
+                            <label for="city" class="form-label">شهر</label>
+                            <input type="text" name="city" class="form-control" placeholder="مثال: تهران" value="{{ request('city') }}">
+                        </div>
+                        <!-- قیمت -->
+                        <div class="col-md-2">
+                            <label for="min_price" class="form-label">حداقل قیمت</label>
+                            <input type="number" name="min_price" class="form-control" placeholder="از (تومان)" value="{{ request('min_price') }}">
+                        </div>
+                        <!-- دکمه جستجو -->
+                        <div class="col-md-2 d-flex gap-2 align-items-end">
+                            <button type="submit" class="btn btn-danger flex-fill">جستجو</button>
+                            <a href="{{ route('ads.index') }}" class="btn btn-outline-secondary">پاک کردن</a>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
-    </section>
+    </div>
+</header>
 
-    <!-- بخش نمایش آگهی‌ها -->
+<!-- بخش نمایش آگهی‌ها -->
+<div class="container pb-5">
     <div class="row">
         @forelse($ads as $ad)
             <div class="col-lg-4 col-md-6 mb-4">
@@ -167,9 +193,13 @@
 
                         <p class="card-text text-muted small flex-grow-1 text-truncate">{{ Str::limit($ad->description, 80) }}</p>
 
-                        <div class="d-flex justify-content-between align-items-center mt-auto">
-                            <small class="text-muted"><i class="bi bi-clock"></i> {{ $ad->created_at->diffForHumans() }}</small>
-                            <a href="{{ route('ads.show', $ad->id) }}" class="btn btn-details btn-sm">مشاهده جزئیات</a>
+                        <div class="card-footer bg-transparent border-top-0 mt-auto pt-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock"></i> {{ $ad->created_at->diffForHumans() }}
+                                </small>
+                                <a href="{{ route('ads.show', $ad->id) }}" class="btn btn-details btn-sm">مشاهده جزئیات</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -178,7 +208,7 @@
             <div class="col-12 empty-state">
                 <img src="{{ asset('images/empty-box.svg') }}" alt="هیچ آگهی یافت نشد">
                 <h3 class="text-muted">فعلاً آگهی‌ای برای نمایش وجود ندارد.</h3>
-                <p class="text-muted">می‌توانید اولین نفر باشید که آگهی خود را ثبت می‌کند!</p>
+                <p class="text-muted">با فیلترهای جدید، جستجوی خود را دقیق‌تر کنید!</p>
                 <a href="{{ route('ads.create') }}" class="btn btn-danger mt-3">ثبت آگهی جدید</a>
             </div>
         @endforelse
@@ -188,6 +218,5 @@
     <div class="d-flex justify-content-center mt-5">
         {{ $ads->links('pagination::bootstrap-4') }}
     </div>
-
 </div>
 @endsection
