@@ -15,7 +15,6 @@ use Intervention\Image\ImageManager;
 class AdController extends Controller
 {
     // نمایش تمام آگهی‌ها (صفحه اصلی)
-
     public function index(Request $request)
     {
         $query = Ad::with('category', 'user')->where('status', 'active');
@@ -28,12 +27,25 @@ class AdController extends Controller
             });
         }
 
-        // فیلتر بر اساس دسته‌بندی (شامل خود دسته مادر و تمام فرزندان)
+        // فیلتر بر اساس دسته‌بندی (شامل تمام فرزندان)
         if ($request->category_id) {
             $descendantIds = $this->getDescendantCategoryIds($request->category_id);
-            // این خط کلیدی است: ID دسته مادر را به ابتدای آرایه اضافه می‌کنیم
-            $allIds = collect([$request->category_id])->merge($descendantIds);
-            $query->whereIn('category_id', $allIds);
+            $query->whereIn('category_id', $descendantIds);
+        }
+
+        // فیلتر بر اساس قیمت (حداقل)
+        if ($request->min_price) {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        // فیلتر بر اساس قیمت (حداکثر)
+        if ($request->max_price) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        // فیلتر بر اساس شهر
+        if ($request->city) {
+            $query->where('city', 'LIKE', "%{$request->city}%");
         }
 
         $ads = $query->latest()->paginate(12);
@@ -240,12 +252,25 @@ class AdController extends Controller
             });
         }
 
-        // فیلتر بر اساس دسته‌بندی (شامل خود دسته مادر و تمام فرزندان)
+        // فیلتر بر اساس دسته‌بندی (شامل تمام فرزندان)
         if ($request->category_id) {
             $descendantIds = $this->getDescendantCategoryIds($request->category_id);
-            // این خط کلیدی است: ID دسته مادر را به ابتدای آرایه اضافه می‌کنیم
-            $allIds = collect([$request->category_id])->merge($descendantIds);
-            $query->whereIn('category_id', $allIds);
+            $query->whereIn('category_id', $descendantIds);
+        }
+
+        // فیلتر بر اساس قیمت (حداقل)
+        if ($request->min_price) {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        // فیلتر بر اساس قیمت (حداکثر)
+        if ($request->max_price) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        // فیلتر بر اساس شهر
+        if ($request->city) {
+            $query->where('city', 'LIKE', "%{$request->city}%");
         }
 
         $ads = $query->latest()->paginate(12);
