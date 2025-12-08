@@ -246,44 +246,6 @@ routes/
 
 ---
 
-## ⚡ عملکردهای انجام‌شده تا این مرحله
-
-✅ **فاز ۱ – تحلیل و طراحی اولیه**
-
-* طراحی ERD کامل برای users، ads، categories، images، messages
-* انتخاب فناوری‌ها (Laravel + MySQL + Bootstrap)
-* ساخت README اولیه و Git setup
-
-✅ **فاز ۲ – پیاده‌سازی پایگاه‌داده و ساختار اولیه**
-
-* ایجاد جداول با migration
-* ساخت مدل‌ها و روابط بین آن‌ها
-* کنترلر اولیه برای آگهی‌ها (`AdController`)
-* صفحه اصلی (`ads/index.blade.php`)
-
-✅ **فاز ۳ – ثبت‌نام و ورود کاربران**
-
-* پیاده‌سازی Fortify و Jetstream با Livewire
-* فرم‌های login و register فعال
-* هش رمزها و اعتبارسنجی کاربران
-* نقش پیش‌فرض: `user`
-* ادمین اولیه با Seeder ساخته شد
-
-✅ **فاز ۴ – نقش‌ها و داشبوردها**
-
-* ساخت Middleware `IsAdmin`
-* جداسازی مسیرهای ادمین و کاربر
-* ساخت کنترلرهای `AdminController` و `UserDashboardController`
-* طراحی صفحات `dashboard/admin.blade.php` و `dashboard/user.blade.php`
-* افزودن دکمه‌ی "ادمین کن / کاربر کن" در لیست کاربران
-* نمایش آمار (کل آگهی‌ها، کاربران، وضعیت‌ها) در داشبورد ادمین
-
-✅ **فاز ۵ – ظاهر و Layout**
-
-* طراحی فایل‌های `header.blade.php` و `footer.blade.php`
-* تنظیم ساختار لایه‌ای با `app.blade.php`
-* اتصال Bootstrap به‌صورت آفلاین
-* نمایش چند آگهی نمونه در صفحه اصلی
 
 ---
 
