@@ -22,6 +22,35 @@ Route::delete('/ads/{id}', [AdController::class, 'destroy'])->name('ads.destroy'
 Route::get('/welcome', fn() => view('welcome'));
 Route::get('/home', fn() => view('index'));
 Route::get('/my-ads', [AdController::class, 'myAds'])->name('my.ads')->middleware('auth');
+Route::get('/chat/{ad}', function ($ad) {
+    $ad = \App\Models\Ad::find($ad); // فقط برای مثال، اگر بخوای اطلاعات آگهی داشته باشی
+    return view('chat.show', compact('ad'));
+    
+});
+
+/*
+|-------------------------------------------------------------------------- 
+| مسیرهای چت
+|-------------------------------------------------------------------------- 
+*/
+
+// صفحه لیست همه چت‌ها
+Route::get('/chat', function () {
+    return view('chat.index'); // این صفحه لیست پیام‌هاست
+})->name('chat.index');
+
+// صفحه نمایش یک چت خاص
+Route::get('/chat/{id}', function ($id) {
+    return view('chat.show', compact('id')); // صفحه چت واحد
+})->name('chat.show');
+
+// صفحه چت مربوط به یک آگهی
+Route::get('/chat/ad/{ad}', function ($ad) {
+    $ad = \App\Models\Ad::find($ad);
+    return view('chat.show', compact('ad'));
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | مسیرهای کاربران عادی (نیاز به ورود دارد)
@@ -68,3 +97,4 @@ Route::get('/redirect-after-login', function () {
     }
     return redirect()->route('dashboard');
 });
+

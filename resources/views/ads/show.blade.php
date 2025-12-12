@@ -125,13 +125,25 @@
                 <div class="card shadow-sm mb-4 border-0">
                     <div class="card-body text-center">
                         <h2 class="text-danger mb-3 fw-bold">{{ number_format($ad->price) }} <span class="fs-6">تومان</span></h2>
-                        <a href="tel:{{ $ad->user->phone ?? '#' }}" class="btn btn-success btn-lg w-100 mb-2">
+
+                        {{-- دکمه تماس با فروشنده --}}
+                        <button class="btn btn-success btn-lg w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#contactSeller" aria-expanded="false" aria-controls="contactSeller">
                             <i class="bi bi-telephone-fill me-2"></i> تماس با فروشنده
-                        </a>
-                        {{-- در آینده می‌توانید چت را اضافه کنید --}}
-                        {{-- <a href="#" class="btn btn-outline-secondary w-100">
+                        </button>
+
+                        {{-- بخش بازشونده تماس --}}
+                        <div class="collapse mt-2" id="contactSeller">
+                            <div class="card card-body text-start">
+                                <p class="mb-1"><strong>نام فروشنده:</strong> {{ $ad->user->name ?? 'نامشخص' }}</p>
+                                <p class="mb-1"><strong>شماره تماس:</strong> <a href="tel:{{ $ad->user->phone ?? '#' }}">{{ $ad->user->phone ?? '---' }}</a></p>
+                                <p class="mb-0"><strong>ارسال پیامک:</strong> <a href="sms:{{ $ad->user->phone ?? '#' }}">ارسال پیامک</a></p>
+                            </div>
+                        </div>
+
+                        {{-- دکمه چت با فروشنده  --}}
+                        <a href="{{ url('/chat/' . $ad->id) }}" class="btn btn-primary btn-lg w-100 mt-2">
                             <i class="bi bi-chat-dots-fill me-2"></i> چت با فروشنده
-                        </a> --}}
+                        </a>
                     </div>
                 </div>
 

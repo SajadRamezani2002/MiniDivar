@@ -103,12 +103,20 @@
                 @endguest
 
                 {{-- اگر کاربر لاگین کرده --}}
-                @auth
-                    <li class="nav-item">
-                        <a class="btn btn-post-ad btn-sm text-white" href="{{ route('ads.create') }}">
-                            <i class="bi bi-plus-circle me-1"></i> ثبت آگهی
-                        </a>
-                    </li>
+             @auth
+    <li class="nav-item d-flex align-items-center gap-2">
+        {{-- دکمه ثبت آگهی --}}
+        <a href="{{ route('ads.create') }}" class="btn btn-danger btn-sm">
+            <i class="bi bi-plus-circle ms-1"></i> ثبت آگهی
+        </a>
+
+        {{-- دکمه پیام‌ها --}}
+        <a href="{{ route('chat.index') }}" class="btn btn-success btn-sm">
+            <i class="bi bi-chat-dots ms-1"></i> پیام‌ها
+        </a>
+    </li>
+
+
 
                     <li class="nav-item dropdown user-dropdown ms-3">
                         <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

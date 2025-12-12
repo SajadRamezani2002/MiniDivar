@@ -120,7 +120,7 @@
                         بهترین آگهی‌ها را پیدا کنید
                     @endif
                 </h1>
-                <p class="lead">در MiniDivar، کالایس خود را پیدا کنید.</p>
+                <p class="lead">در MiniDivar، کالای خود را پیدا کنید.</p>
 
                 <form action="{{ route('ads.index') }}" method="GET" class="search-form mt-4">
                     <div class="row g-3 align-items-center">
