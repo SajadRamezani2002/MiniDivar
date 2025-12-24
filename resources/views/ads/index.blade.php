@@ -11,33 +11,64 @@
         margin-bottom: 2rem;
         border-radius: 0 0 20px 20px;
     }
-    .search-form .form-control {
-        border-radius: 0.5rem;
-        border: 1px solid #ced4da;
-        padding: 0.75rem 1rem;
-        transition: all 0.2s ease-in-out;
-    }
-    .search-form .form-control:focus {
-        border-color: #e74c3c;
-        box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
-    }
+    .search-form .form-control,
     .search-form .form-select {
         border-radius: 0.5rem;
         border: 1px solid #ced4da;
         padding: 0.75rem 1rem;
         transition: all 0.2s ease-in-out;
     }
+    .search-form .form-control:focus,
+    .search-form .form-select:focus {
+        border-color: #e74c3c;
+        box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+    }
     .search-form .form-label {
         font-weight: 600;
-        color: #f8f9fa; /* رنگ روشن برای خوانایی روی پس‌زمینه تیره */
+        color: #f8f9fa;
         margin-bottom: 0.5rem;
     }
-    .search-form .btn {
+
+    /* دکمه‌های جستجو و پاک کردن هماهنگ */
+    .search-btn {
+        height: 48px;
         border-radius: 50px;
-        padding: 0.75rem 1.5rem;
         font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transition: all 0.3s ease;
     }
+    .search-btn-danger {
+        background-color: #e74c3c;
+        border: none;
+        color: white;
+    }
+    .search-btn-danger:hover {
+        background-color: #c0392b;
+        color: white;
+    }
+    .search-btn-outline-danger {
+        background-color: white;
+        border: 2px solid #e74c3c;
+        color: #e74c3c;
+    }
+    .search-btn-outline-danger:hover {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    /* اطمینان از اینکه دکمه‌ها پایین فرم و در یک خط هستند و هم‌اندازه */
+    .search-btn-wrapper {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-end;
+        margin-top: auto;
+    }
+    .search-btn-wrapper .search-btn {
+        flex: 1; /* هر دو دکمه هم‌اندازه شوند */
+    }
+
     .ad-card {
         transition: all 0.3s ease;
         border: none;
@@ -123,14 +154,14 @@
                 <p class="lead">در MiniDivar، کالای خود را پیدا کنید.</p>
 
                 <form action="{{ route('ads.index') }}" method="GET" class="search-form mt-4">
-                    <div class="row g-3 align-items-center">
+                    <div class="row g-3 align-items-stretch">
                         <!-- جستجو -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 d-flex flex-column">
                             <label for="search" class="form-label">جستجو در عنوان</label>
                             <input type="text" name="search" class="form-control" placeholder="عنوان آگهی..." value="{{ request('search') }}">
                         </div>
                         <!-- دسته‌بندی -->
-                        <div class="col-md-2">
+                        <div class="col-md-2 d-flex flex-column">
                             <label for="category_id" class="form-label">دسته‌بندی</label>
                             <select name="category_id" class="form-select">
                                 <option value="">همه دسته‌بندی‌ها</option>
@@ -142,19 +173,19 @@
                             </select>
                         </div>
                         <!-- شهر -->
-                        <div class="col-md-2">
+                        <div class="col-md-2 d-flex flex-column">
                             <label for="city" class="form-label">شهر</label>
                             <input type="text" name="city" class="form-control" placeholder="مثال: تهران" value="{{ request('city') }}">
                         </div>
                         <!-- قیمت -->
-                        <div class="col-md-2">
+                        <div class="col-md-2 d-flex flex-column">
                             <label for="min_price" class="form-label">حداقل قیمت</label>
                             <input type="number" name="min_price" class="form-control" placeholder="از (تومان)" value="{{ request('min_price') }}">
                         </div>
-                        <!-- دکمه جستجو -->
-                        <div class="col-md-2 d-flex gap-2 align-items-end">
-                            <button type="submit" class="btn btn-danger flex-fill">جستجو</button>
-                            <a href="{{ route('ads.index') }}" class="btn btn-outline-secondary">پاک کردن</a>
+                        <!-- دکمه جستجو و پاک کردن -->
+                        <div class="col-md-2 d-flex search-btn-wrapper">
+                            <button type="submit" class="search-btn search-btn-danger">جستجو</button>
+                            <a href="{{ route('ads.index') }}" class="search-btn search-btn-outline-danger">پاک کردن</a>
                         </div>
                     </div>
                 </form>

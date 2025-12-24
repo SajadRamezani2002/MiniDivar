@@ -1,10 +1,9 @@
 {{-- این تگ استایل، تمام استایل‌های لازم را مستقیماً در این فایل تعریف می‌کند --}}
 <style>
-    /* استایل‌های مستقل برای هدر */
     .main-navbar {
-        background-color: #1a1a1a !important; /* رنگ تیره برای هدر */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important; /* سایه برای جدا شدن از صفحه */
-        border-bottom: 1px solid #333 !important; /* یک خط کمرنگ برای زیبایی */
+        background-color: #1a1a1a !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        border-bottom: 1px solid #333 !important;
     }
 
     .main-navbar .navbar-brand {
@@ -62,11 +61,11 @@
         transform: translateY(-2px);
     }
 
-    /* استایل برای دکمه‌های ورود و ثبت‌نام */
     .main-navbar .btn-outline-light {
         border-color: rgba(255,255,255,0.5) !important;
         color: rgba(255,255,255,0.9) !important;
     }
+
     .main-navbar .btn-outline-light:hover {
         border-color: #ffffff !important;
         background-color: #ffffff !important;
@@ -81,18 +80,13 @@
             MiniDivar
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMiniDivar" aria-controls="navbarMiniDivar" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMiniDivar">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        {{-- دکمه منو برای موبایل (فقط در صفحات ادمین) --}}
-        @if(request()->is('admin/*'))
-            <button class="menu-toggle" id="menuToggle">&#9776;</button>
-        @endif
-
         <div class="collapse navbar-collapse" id="navbarMiniDivar">
             <ul class="navbar-nav ms-auto align-items-center">
-                {{-- اگر کاربر مهمان است --}}
+
                 @guest
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">ورود</a>
@@ -102,36 +96,66 @@
                     </li>
                 @endguest
 
-                {{-- اگر کاربر لاگین کرده --}}
-             @auth
-    <li class="nav-item d-flex align-items-center gap-2">
-        {{-- دکمه ثبت آگهی --}}
-        <a href="{{ route('ads.create') }}" class="btn btn-danger btn-sm">
-            <i class="bi bi-plus-circle ms-1"></i> ثبت آگهی
-        </a>
-
-        {{-- دکمه پیام‌ها --}}
-        <a href="{{ route('chat.index') }}" class="btn btn-success btn-sm">
-            <i class="bi bi-chat-dots ms-1"></i> پیام‌ها
-        </a>
-    </li>
-
-
+                @auth
+                    <li class="nav-item d-flex align-items-center gap-2">
+                        <a href="{{ route('ads.create') }}" class="btn btn-danger btn-sm">
+                            <i class="bi bi-plus-circle ms-1"></i> ثبت آگهی
+                        </a>
+                    </li>
 
                     <li class="nav-item dropdown user-dropdown ms-3">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ Auth::user()->profile_photo_url ?? asset('images/user.png') }}" class="rounded-circle me-2" width="32" height="32" style="object-fit: cover;">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center text-white"
+                           href="#" id="navbarDropdown"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ Auth::user()->profile_photo_url ?? asset('images/user.png') }}"
+                                 class="rounded-circle me-2" width="32" height="32" style="object-fit: cover;">
                             {{ Auth::user()->name }}
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end text-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="bi bi-speedometer2 ms-2"></i> داشبورد</a></li>
-                            <li><a class="dropdown-item" href="{{ route('profile.show') }}"><i class="bi bi-person ms-2"></i> پروفایل</a></li>
-                            <li><a class="dropdown-item" href="{{ route('my.ads') }}"><i class="bi bi-card-text ms-2"></i> آگهی‌های من</a></li>                            @if(Auth::user()->role === 'admin')
+
+                        <ul class="dropdown-menu dropdown-menu-end text-end">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                    <i class="bi bi-speedometer2 ms-2"></i> داشبورد
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ route('profile.show') }}">
+                                    <i class="bi bi-person ms-2"></i> پروفایل
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ route('my.ads') }}">
+                                    <i class="bi bi-card-text ms-2"></i> آگهی‌های من
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ route('chat.index') }}">
+                                    <i class="bi bi-chat-dots ms-2"></i> مشاهده پیام‌ها
+                                </a>
+                            </li>
+
+                            {{-- فقط برای ادمین --}}
+                            @if(auth()->user()->role === 'admin')
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ route('admin.ads') }}"><i class="bi bi-list-ul ms-2"></i> مدیریت آگهی‌ها</a></li>
-                                <li><a class="dropdown-item" href="{{ route('admin.users') }}"><i class="bi bi-people-fill ms-2"></i> مدیریت کاربران</a></li>
+
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.ads') }}">
+                                        <i class="bi bi-list-ul ms-2"></i> مدیریت آگهی‌ها
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.users') }}">
+                                        <i class="bi bi-people-fill ms-2"></i> مدیریت کاربران
+                                    </a>
+                                </li>
                             @endif
+
                             <li><hr class="dropdown-divider"></li>
+
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -143,6 +167,7 @@
                         </ul>
                     </li>
                 @endauth
+
             </ul>
         </div>
     </div>

@@ -4,24 +4,145 @@
 
 @push('styles')
 <style>
-.chat-container { height:75vh; max-width:900px; width:100%; margin:auto; display:flex; flex-direction:column; border:1px solid #dee2e6; border-radius:12px; background:#fff; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-.chat-header { padding:12px 16px; border-bottom:1px solid #dee2e6; background:#f8f9fa; display:flex; flex-direction:column; gap:8px; font-weight:600; font-size:1rem;}
-.ad-info { display:flex; align-items:center; gap:10px;}
-.ad-info img { width:50px; height:50px; border-radius:8px; object-fit:cover;}
-.ad-info .title { font-weight:500; font-size:0.95rem; color:#333;}
-.chat-messages { flex:1; padding:15px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; background:#f8f9fa; scroll-behavior:smooth;}
-.message { max-width:70%; padding:12px 16px; border-radius:20px; line-height:1.5; font-size:0.95rem; word-wrap:break-word;}
-.message.me { background:#ff6b6b; color:#fff; margin-left:auto; border-bottom-right-radius:0;}
-.message.other { background:#e9ecef; color:#000; margin-right:auto; border-bottom-left-radius:0;}
-.chat-input-area { padding:12px 15px; border-top:1px solid #dee2e6; display:flex; flex-direction:column; gap:10px; position:relative;}
-.predefined-messages { display:flex; justify-content:flex-end; gap:8px; position:absolute; bottom:80px; right:15px;}
-.predefined-messages button { padding:6px 12px; border-radius:20px; border:none; background:#e9ecef; font-size:0.85rem; cursor:pointer; transition:0.2s;}
-.predefined-messages button:hover { background:#ced4da;}
-.chat-input-row { display:flex; gap:10px;}
-.chat-input-row input { flex:1; border-radius:25px; border:1px solid #ced4da; padding:12px 18px; transition:0.2s;}
-.chat-input-row input:focus { outline:none; border-color:#ff6b6b; box-shadow:0 0 5px rgba(255,107,107,0.4);}
-.chat-input-row button { width:50px; height:50px; border-radius:50%; border:none; background:#ff6b6b; color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.2rem; cursor:pointer;}
-.chat-input-row button:hover { background:#e04848;}
+.chat-container {
+    height:75vh;
+    max-width:900px;
+    width:100%;
+    margin:auto;
+    display:flex;
+    flex-direction:column;
+    border:1px solid #dee2e6;
+    border-radius:12px;
+    background:#fff;
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+
+    /* بهینه‌سازی برای لپ‌تاپ */
+    padding: 0;
+}
+.chat-header {
+    padding:12px 16px;
+    border-bottom:1px solid #dee2e6;
+    background:#f8f9fa;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    font-weight:600;
+    font-size:1rem;
+}
+.ad-info {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.ad-info img {
+    width:50px;
+    height:50px;
+    border-radius:8px;
+    object-fit:cover;
+}
+.ad-info .title {
+    font-weight:500;
+    font-size:0.95rem;
+    color:#333;
+}
+.chat-messages {
+    flex:1;
+    padding:15px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    background:#f8f9fa;
+    scroll-behavior:smooth;
+}
+.message {
+    max-width:70%;
+    padding:12px 16px;
+    border-radius:20px;
+    line-height:1.5;
+    font-size:0.95rem;
+    word-wrap:break-word;
+}
+.message.me {
+    background:#ff6b6b;
+    color:#fff;
+    margin-left:auto;
+    border-bottom-right-radius:0;
+}
+.message.other {
+    background:#e9ecef;
+    color:#000;
+    margin-right:auto;
+    border-bottom-left-radius:0;
+}
+.chat-input-area {
+    padding:12px 15px;
+    border-top:1px solid #dee2e6;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    position:relative;
+}
+.predefined-messages {
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    position:absolute;
+    bottom:80px;
+    right:15px;
+}
+.predefined-messages button {
+    padding:6px 12px;
+    border-radius:20px;
+    border:none;
+    background:#e9ecef;
+    font-size:0.85rem;
+    cursor:pointer;
+    transition:0.2s;
+}
+.predefined-messages button:hover {
+    background:#ced4da;
+}
+.chat-input-row {
+    display:flex;
+    gap:10px;
+}
+.chat-input-row input {
+    flex:1;
+    border-radius:25px;
+    border:1px solid #ced4da;
+    padding:12px 18px;
+    transition:0.2s;
+}
+.chat-input-row input:focus {
+    outline:none;
+    border-color:#ff6b6b;
+    box-shadow:0 0 5px rgba(255,107,107,0.4);
+}
+.chat-input-row button {
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:none;
+    background:#ff6b6b;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.2rem;
+    cursor:pointer;
+}
+.chat-input-row button:hover {
+    background:#e04848;
+}
+
+/* ریسپانسیو برای لپ‌تاپ */
+@media (min-width: 1200px) {
+    .chat-container {
+        max-width: 900px;
+    }
+}
 </style>
 @endpush
 
@@ -81,23 +202,4 @@ function sendMessage(){
 }
 function sendPredefined(text){ addMessage(text,'me'); }
 </script>
-@endsection
-@extends('layouts.app')
-
-@section('title', 'چت')
-
-@section('content')
-<div class="container py-4">
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      
-        {{-- دکمه بازگشت به لیست پیام‌ها --}}
-        <a href="{{ route('chat.index') }}" class="btn btn-success btn-sm">
-            <i class="bi bi-chat-dots"></i> پیام‌ها
-        </a>
-    </div>
-
-    <p>اینجا پیام‌های این چت نمایش داده خواهد شد.</p>
-
-</div>
 @endsection
