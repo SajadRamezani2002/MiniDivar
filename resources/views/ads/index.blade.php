@@ -5,360 +5,269 @@
 @push('styles')
 <style>
 /* ===========================
-   GLOBAL FIX
+   GLOBAL RESET
 =========================== */
 * {
     box-sizing: border-box;
 }
 
 html, body {
+    width: 100%;
     max-width: 100%;
     overflow-x: hidden;
 }
 
 /* ===========================
-   ORIGINAL STYLES
+   HEADER
 =========================== */
 .main-header {
-    color: rgb(0, 0, 0);
-    padding: 3rem 0;
-    margin-bottom: 2rem;
+    color: #000;
+    padding: 2.2rem 0; /* ⬅️ کمتر شد */
+    margin-bottom: 1.5rem; /* ⬅️ کمتر شد */
     border-radius: 0 0 20px 20px;
 }
 
-.search-form .form-control,
-.search-form .form-select {
-    border-radius: 0.5rem;
-    border: 1px solid #ced4da;
-    padding: 0.75rem 1rem;
-    transition: all 0.2s ease-in-out;
+.main-header h1 {
+    margin-bottom: 0.4rem; /* ⬅️ فاصله کمتر */
 }
 
-.search-form .form-control:focus,
-.search-form .form-select:focus {
-    border-color: #e74c3c;
-    box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+.main-header .lead {
+    margin-bottom: 0.6rem; /* ⬅️ فاصله کمتر */
 }
 
-.search-form .form-label {
-    font-weight: 600;
-    color: #f8f9fa;
-    margin-bottom: 0.5rem;
+/* ===========================
+   PAGE WRAPPER (FIX WIDTH)
+=========================== */
+.page-wrapper {
+    width: 1200px;
+    max-width: 94vw;
+    margin: 0 auto;
+    overflow-x: hidden;
 }
 
-.search-btn {
-    height: 48px;
-    border-radius: 50px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+/* ===========================
+   SEARCH FORM
+=========================== */
+.search-form {
+    margin-top: 0.5rem !important; /* ⬅️ فاصله کمتر با متن بالا */
 }
 
-.search-btn-danger {
-    background-color: #e74c3c;
-    border: none;
-    color: white;
-}
-
-.search-btn-outline-danger {
-    background-color: white;
-    border: 2px solid #e74c3c;
-    color: #e74c3c;
+.search-form .row {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .search-btn-wrapper {
     display: flex;
+    flex-direction: column;
     gap: 0.5rem;
-    align-items: flex-end;
+    justify-content: flex-end;
 }
 
-.search-btn-wrapper .search-btn {
-    flex: 1;
+.search-btn {
+    height: 44px;
+    border-radius: 30px;
+    font-weight: 600;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-btn-danger {
+    background: #e74c3c;
+    border: none;
+    color: #fff;
+}
+
+.search-btn-outline-danger {
+    background: #fff;
+    border: 2px solid #e74c3c;
+    color: #e74c3c;
+}
+
+/* ===========================
+   ADS GRID
+=========================== */
+.ads-row {
+    margin: 0;
+}
+
+.ads-row > [class*="col-"] {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 .ad-card {
-    transition: all 0.3s ease;
-    border: none;
-    border-radius: 15px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 14px;
     overflow: hidden;
     height: 100%;
 }
 
-.ad-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-}
-
-.ad-card .card-img-top {
-    height: 200px;
+.ad-card img {
     width: 100%;
+    height: 190px;
     object-fit: cover;
+    display: block;
 }
 
+/* ===========================
+   BADGE
+=========================== */
 .ad-badge-new {
     position: absolute;
     top: 10px;
     left: 10px;
-    background-color: #28a745;
-    color: white;
-    padding: 5px 12px;
+    background: #28a745;
+    color: #fff;
+    padding: 4px 10px;
     border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    z-index: 10;
-}
-
-.ad-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333;
-}
-
-.ad-meta {
-    font-size: 0.9rem;
-    color: #6c757d;
-}
-
-.ad-price {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #e74c3c;
-}
-
-.btn-details {
-    background-color: #e74c3c;
-    border: none;
-    border-radius: 25px;
-    color: white;
-    font-weight: 500;
-}
-
-.empty-state {
-    padding: 4rem 2rem;
-    text-align: center;
-}
-
-.empty-state img {
-    width: 150px;
-    opacity: 0.5;
+    font-size: 0.7rem;
+    z-index: 2;
 }
 
 /* ===========================
-   MOBILE & TABLET FIX
+   DETAILS BUTTON
+=========================== */
+.btn-details {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+}
+
+/* ===========================
+   MOBILE
 =========================== */
 @media (max-width: 768px) {
 
-    html, body {
-        width: 100%;
-        overflow-x: hidden;
-    }
-
-    .container {
-        max-width: 100%;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
     .main-header {
-        padding: 2rem 0 1.5rem;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        border-radius: 0 0 12px 12px;
+        padding: 1.6rem 0 1.4rem;
+        margin-bottom: 1rem;
     }
 
     .main-header h1 {
+        margin-bottom: 0.3rem;
         font-size: 1.4rem;
     }
 
     .main-header .lead {
+        margin-bottom: 0.4rem;
         font-size: 0.9rem;
     }
 
-    .search-form .row {
-        flex-direction: column;
-        gap: 0.5rem;
+    .page-wrapper {
+        max-width: 92vw;
     }
 
-    .search-form .col-md-4,
-    .search-form .col-md-2 {
-        width: 100%;
-        max-width: 100%;
+    .search-form {
+        margin-top: 0.4rem !important;
     }
 
-    .search-form .form-label {
-        color: #333;
-        font-size: 0.85rem;
-    }
-
-    .search-form .form-control,
-    .search-form .form-select {
-        font-size: 0.9rem;
-    }
-
-    .search-btn-wrapper {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .search-btn {
-        width: 100%;
-        height: 44px;
-    }
-
-    /* کارت‌ها */
-    .row > .col-lg-4,
-    .row > .col-md-6 {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .ad-card {
-        border-radius: 12px;
-        margin-bottom: 0.75rem;
-    }
-
-    .ad-card .card-img-top {
+    .ad-card img {
         height: 180px;
-    }
-
-    .ad-title {
-        font-size: 1rem;
-    }
-
-    .ad-meta {
-        font-size: 0.85rem;
-    }
-
-    .ad-price {
-        font-size: 1rem;
-    }
-
-    .card-text {
-        font-size: 0.85rem;
-    }
-
-    .card-footer {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .pagination {
-        flex-wrap: wrap;
-        gap: 0.25rem;
     }
 }
 </style>
 @endpush
 
 @section('content')
-<!-- بخش هدر با جستجو و فیلتر -->
+
+<!-- HEADER -->
 <header class="main-header">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <h1 class="display-5 fw-bold">
-                    @if(isset($isMyAdsPage))
-                        آگهی‌های من
-                    @else
-                        بهترین آگهی‌ها را پیدا کنید
-                    @endif
-                </h1>
-                <p class="lead">در MiniDivar، کالای خود را پیدا کنید.</p>
-
-                <form action="{{ route('ads.index') }}" method="GET" class="search-form mt-4">
-                    <div class="row g-3 align-items-stretch">
-                        <div class="col-md-4 d-flex flex-column">
-                            <label for="search" class="form-label">جستجو در عنوان</label>
-                            <input type="text" name="search" class="form-control" placeholder="عنوان آگهی..." value="{{ request('search') }}">
-                        </div>
-
-                        <div class="col-md-2 d-flex flex-column">
-                            <label for="category_id" class="form-label">دسته‌بندی</label>
-                            <select name="category_id" class="form-select">
-                                <option value="">همه دسته‌بندی‌ها</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-md-2 d-flex flex-column">
-                            <label for="city" class="form-label">شهر</label>
-                            <input type="text" name="city" class="form-control" placeholder="مثال: تهران" value="{{ request('city') }}">
-                        </div>
-
-                        <div class="col-md-2 d-flex flex-column">
-                            <label for="min_price" class="form-label">حداقل قیمت</label>
-                            <input type="number" name="min_price" class="form-control" placeholder="از (تومان)" value="{{ request('min_price') }}">
-                        </div>
-
-                        <div class="col-md-2 d-flex search-btn-wrapper">
-                            <button type="submit" class="search-btn search-btn-danger">جستجو</button>
-                            <a href="{{ route('ads.index') }}" class="search-btn search-btn-outline-danger">پاک کردن</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <h1 class="fw-bold">
+            {{ isset($isMyAdsPage) ? 'آگهی‌های من' : 'خوش آمدید به MiniDivar' }}
+        </h1>
+        <p class="lead">در MiniDivar، کالای خود را پیدا کنید.</p>
     </div>
 </header>
 
-<!-- بخش نمایش آگهی‌ها -->
-<div class="container pb-5">
-    <div class="row">
+<!-- CONTENT -->
+<div class="page-wrapper">
+
+    <!-- SEARCH -->
+    <form action="{{ route('ads.index') }}" method="GET" class="search-form mb-4">
+        <div class="row g-2">
+            <div class="col-12 col-md-4">
+                <input type="text" name="search" class="form-control" placeholder="عنوان آگهی" value="{{ request('search') }}">
+            </div>
+
+            <div class="col-12 col-md-2">
+                <select name="category_id" class="form-select">
+                    <option value="">دسته‌بندی</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-12 col-md-2">
+                <input type="text" name="city" class="form-control" placeholder="شهر" value="{{ request('city') }}">
+            </div>
+
+            <div class="col-12 col-md-2">
+                <input type="number" name="min_price" class="form-control" placeholder="حداقل قیمت" value="{{ request('min_price') }}">
+            </div>
+
+            <div class="col-12 col-md-2 search-btn-wrapper">
+                <button type="submit" class="search-btn search-btn-danger">
+                    جستجو
+                </button>
+                <a href="{{ route('ads.index') }}" class="search-btn search-btn-outline-danger">
+                    پاک کردن
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <!-- ADS -->
+    <div class="row ads-row">
         @forelse($ads as $ad)
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card ad-card shadow-sm h-100">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <div class="card ad-card position-relative">
+
                     @if($ad->created_at->greaterThan(now()->subDays(3)))
                         <span class="ad-badge-new">جدید</span>
                     @endif
 
-                    <a href="{{ route('ads.show', $ad->id) }}">
-                        <img src="{{ $ad->images->isNotEmpty()
-                            ? asset('storage/'.$ad->images->first()->file_path)
-                            : asset('images/no-image.jpg') }}"
-                             class="card-img-top" alt="{{ $ad->title }}">
-                    </a>
+                    <img src="{{ $ad->images->isNotEmpty()
+                        ? asset('storage/'.$ad->images->first()->file_path)
+                        : asset('images/no-image.jpg') }}">
 
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title ad-title text-truncate">{{ $ad->title }}</h5>
+                        <h6 class="text-truncate">{{ $ad->title }}</h6>
 
-                        <div class="ad-meta mb-2">
-                            <span class="ad-price">{{ number_format($ad->price) }} تومان</span>
-                            <span class="ms-3">{{ $ad->city }}</span>
+                        <strong class="text-danger mb-1">
+                            {{ number_format($ad->price) }} تومان
+                        </strong>
+
+                        <div class="text-muted small mb-2">
+                            {{ $ad->city }}
                         </div>
 
-                        <p class="card-text text-muted small flex-grow-1">
-                            {{ Str::limit($ad->description, 80) }}
-                        </p>
-
-                        <div class="card-footer bg-transparent border-top-0 mt-auto pt-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">{{ $ad->created_at->diffForHumans() }}</small>
-                                <a href="{{ route('ads.show', $ad->id) }}" class="btn btn-details btn-sm">
-                                    مشاهده جزئیات
-                                </a>
-                            </div>
-                        </div>
+                        <a href="{{ route('ads.show', $ad->id) }}"
+                           class="btn btn-details btn-sm mt-auto align-self-start">
+                            مشاهده جزئیات
+                        </a>
                     </div>
+
                 </div>
             </div>
         @empty
-            <div class="col-12 empty-state">
-                <img src="{{ asset('images/empty-box.svg') }}" alt="هیچ آگهی یافت نشد">
-                <h3 class="text-muted">فعلاً آگهی‌ای برای نمایش وجود ندارد.</h3>
-                <p class="text-muted">با فیلترهای جدید، جستجوی خود را دقیق‌تر کنید!</p>
-                <a href="{{ route('ads.create') }}" class="btn btn-danger mt-3">ثبت آگهی جدید</a>
-            </div>
+            <div class="text-center py-5">آگهی‌ای یافت نشد</div>
         @endforelse
     </div>
 
-    <div class="d-flex justify-content-center mt-5">
+    <div class="d-flex justify-content-center mt-4">
         {{ $ads->links('pagination::bootstrap-4') }}
     </div>
+
 </div>
 @endsection
