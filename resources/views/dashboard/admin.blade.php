@@ -1,6 +1,132 @@
 @extends('layouts.app')
 @section('title', 'داشبورد ادمین')
 
+@push('styles')
+<style>
+/* ===========================
+   GLOBAL MOBILE FIX
+=========================== */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* کارت‌ها و آمار کلی */
+.card {
+    border-radius: 0.5rem;
+}
+
+.card-header {
+    background-color: #fff;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card h5 {
+    font-size: 1rem;
+}
+
+/* ردیف آمار کلی */
+.row-cols-md-5 > .col-6 {
+    margin-bottom: 1rem;
+}
+
+/* ===========================
+   RESPONSIVE TABLE -> CARD
+=========================== */
+.responsive-table-container thead {
+    display: table-header-group; /* پیش‌فرض دسکتاپ */
+}
+
+@media (max-width: 767.98px) {
+    .table-responsive table thead {
+        display: none;
+    }
+    .table-responsive table,
+    .table-responsive table tbody,
+    .table-responsive table tr,
+    .table-responsive table td {
+        display: block;
+        width: 100%;
+    }
+    .table-responsive table tr {
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        background-color: #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .table-responsive table td {
+        text-align: right !important;
+        padding: 0.5rem 0;
+        border: none;
+        position: relative;
+        padding-left: 35%;
+        font-size: 0.9rem;
+    }
+    .table-responsive table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 30%;
+        font-weight: 600;
+        color: #495057;
+        font-size: 0.85rem;
+    }
+    .table-responsive table td:last-child {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding-left: 0;
+        justify-content: flex-start;
+    }
+    .table-responsive table td:last-child form,
+    .table-responsive table td:last-child a,
+    .table-responsive table td:last-child button {
+        width: 100%;
+        font-size: 0.85rem;
+    }
+
+    /* badges */
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.35em 0.5em;
+    }
+}
+
+/* ===========================
+   BUTTON FIXES
+=========================== */
+.btn-sm {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.6rem;
+}
+
+/* کارت آمار */
+.p-3.border.rounded {
+    text-align: center;
+}
+
+.p-3.border.rounded i {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+</style>
+@endpush
+
 @section('content')
 <div class="container-fluid p-4">
     <!-- بخش آمار کلی -->
@@ -48,6 +174,7 @@
                         <p class="mb-0 fs-4 fw-bold">{{ $rejectedAds ?? 0 }}</p>
                     </div>
                  </div>
+            </div>
         </div>
     </div>
 
@@ -60,7 +187,7 @@
             </h5>
         </div>
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <div class="table-responsive responsive-table-container">
                 <table class="table table-hover align-middle mb-0">
                     <thead>
                         <tr>
@@ -75,11 +202,11 @@
                     <tbody>
                         @forelse ($recentAds as $ad)
                             <tr>
-                                <td>{{ $ad->id }}</td>
-                                <td>{{ Str::limit($ad->title, 40) }}</td>
-                                <td>{{ $ad->user->name ?? '-' }}</td>
-                                <td>{{ $ad->category->name ?? '-' }}</td>
-                                <td>
+                                <td data-label="#">{{ $ad->id }}</td>
+                                <td data-label="عنوان">{{ Str::limit($ad->title, 40) }}</td>
+                                <td data-label="کاربر">{{ $ad->user->name ?? '-' }}</td>
+                                <td data-label="دسته">{{ $ad->category->name ?? '-' }}</td>
+                                <td data-label="وضعیت">
                                     @switch($ad->status)
                                         @case('active')
                                             <span class="badge bg-success">فعال</span>
@@ -90,30 +217,25 @@
                                         @case('rejected')
                                             <span class="badge bg-danger">رد شده</span>
                                             @break
-
                                     @endswitch
                                 </td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <!-- دکمه مشاهده -->
-                                        <a href="{{ route('ads.show', $ad->id) }}" class="btn btn-info btn-sm">مشاهده</a>
+                                <td data-label="عملیات" class="text-center">
+                                    <div class="btn-group d-flex flex-wrap gap-1 justify-content-center">
+                                        <a href="{{ route('ads.show', $ad->id) }}" class="btn btn-info btn-sm flex-fill">مشاهده</a>
                                         @if($ad->status == 'pending')
-                                            <!-- دکمه تأیید -->
-                                            <form method="POST" action="{{ route('admin.ads.approve', $ad->id) }}" class="d-inline">
+                                            <form method="POST" action="{{ route('admin.ads.approve', $ad->id) }}" class="d-inline flex-fill">
                                                 @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">تأیید</button>
+                                                <button type="submit" class="btn btn-success btn-sm w-100">تأیید</button>
                                             </form>
-                                            <!-- دکمه رد -->
-                                            <form method="POST" action="{{ route('admin.ads.reject', $ad->id) }}" class="d-inline">
+                                            <form method="POST" action="{{ route('admin.ads.reject', $ad->id) }}" class="d-inline flex-fill">
                                                 @csrf
-                                                <button type="submit" class="btn btn-warning btn-sm">رد</button>
+                                                <button type="submit" class="btn btn-warning btn-sm w-100">رد</button>
                                             </form>
                                         @endif
-                                        <!-- دکمه حذف -->
-                                        <form method="POST" action="{{ route('admin.ads.delete', $ad->id) }}" class="d-inline" onsubmit="return confirm('آیا از حذف این آگهی مطمئن هستید؟');">
+                                        <form method="POST" action="{{ route('admin.ads.delete', $ad->id) }}" class="d-inline flex-fill" onsubmit="return confirm('آیا از حذف این آگهی مطمئن هستید؟');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+                                            <button type="submit" class="btn btn-danger btn-sm w-100">حذف</button>
                                         </form>
                                     </div>
                                 </td>
@@ -128,8 +250,9 @@
             </div>
         </div>
     </div>
+
     <!-- بخش مدیریت کاربران -->
-    <div class="card shadow-sm ">
+    <div class="card shadow-sm">
         <div class="card-header bg-white py-3">
             <h5 class="mb-0 fw-bold">
                 <i class="bi bi-people-fill ms-2 text-primary"></i>
@@ -137,7 +260,6 @@
             </h5>
         </div>
         <div class="card-body">
-
             <div class="table-responsive responsive-table-container">
                 <table class="table modern-table align-middle">
                     <thead>
@@ -174,7 +296,7 @@
                                 <div class="d-flex justify-content-center gap-2 flex-wrap">
                                     <form action="{{ route('admin.users.toggle', $u->id) }}" method="POST" class="d-inline">
                                         @csrf
-                                        <button type="submit" class="btn btn-{{ $u->role === 'banned' ? 'success' : 'warning' }} btn-sm">
+                                        <button type="submit" class="btn btn-{{ $u->role === 'banned' ? 'success' : 'warning' }} btn-sm w-100">
                                             <i class="bi bi-{{ $u->role === 'banned' ? 'unlock-fill' : 'ban-fill' }} me-1"></i>
                                             {{ $u->role === 'banned' ? 'فعال ' : 'مسدود ' }}
                                         </button>
@@ -182,7 +304,7 @@
                                     @if($u->id !== auth()->id() && $u->role !== 'banned')
                                         <form action="{{ route('admin.users.toggleRole', $u->id) }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button type="submit" class="btn btn-info btn-sm">
+                                            <button type="submit" class="btn btn-info btn-sm w-100">
                                                 <i class="bi bi-{{ $u->role === 'admin' ? 'arrow-down-circle-fill' : 'arrow-up-circle-fill' }} me-1"></i>
                                                 {{ $u->role === 'admin' ? 'تنزل' : 'ارتقا' }}
                                             </button>
