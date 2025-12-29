@@ -22,21 +22,21 @@ html, body {
 =========================== */
 .main-header {
     color: #000;
-    padding: 2.2rem 0; /* ⬅️ کمتر شد */
-    margin-bottom: 1.5rem; /* ⬅️ کمتر شد */
+    padding: 2.2rem 0;
+    margin-bottom: 1.5rem;
     border-radius: 0 0 20px 20px;
 }
 
 .main-header h1 {
-    margin-bottom: 0.4rem; /* ⬅️ فاصله کمتر */
+    margin-bottom: 0.4rem;
 }
 
 .main-header .lead {
-    margin-bottom: 0.6rem; /* ⬅️ فاصله کمتر */
+    margin-bottom: 0.6rem;
 }
 
 /* ===========================
-   PAGE WRAPPER (FIX WIDTH)
+   PAGE WRAPPER
 =========================== */
 .page-wrapper {
     width: 1200px;
@@ -49,7 +49,7 @@ html, body {
    SEARCH FORM
 =========================== */
 .search-form {
-    margin-top: 0.5rem !important; /* ⬅️ فاصله کمتر با متن بالا */
+    margin-top: 0.5rem !important;
 }
 
 .search-form .row {
@@ -57,11 +57,13 @@ html, body {
     margin-right: 0;
 }
 
+/* 🔥 FIX HERE */
 .search-btn-wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;        /* ⬅️ دسکتاپ: کنار هم */
     gap: 0.5rem;
     justify-content: flex-end;
+    align-items: center;
 }
 
 .search-btn {
@@ -72,6 +74,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
 }
 
 .search-btn-danger {
@@ -168,6 +171,12 @@ html, body {
         margin-top: 0.4rem !important;
     }
 
+    /* 🔥 موبایل: زیر هم */
+    .search-btn-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
     .ad-card img {
         height: 180px;
     }
@@ -177,7 +186,6 @@ html, body {
 
 @section('content')
 
-<!-- HEADER -->
 <header class="main-header">
     <div class="container">
         <h1 class="fw-bold">
@@ -187,7 +195,6 @@ html, body {
     </div>
 </header>
 
-<!-- CONTENT -->
 <div class="page-wrapper">
 
     <!-- SEARCH -->
